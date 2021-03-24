@@ -58,9 +58,15 @@ public class Mover : MonoBehaviour
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
         }
         */
+        
         if (contadorSaltos < 2)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+            GameManager gm = GameManager.Instance;
+            if ((contadorSaltos==0) || (contadorSaltos==1 && gm.HasItem("DobleSalto")))
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+            }
+            
             contadorSaltos++;
         } 
         

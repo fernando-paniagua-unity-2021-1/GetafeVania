@@ -31,9 +31,16 @@ public class GameManager : MonoBehaviour
     private GameObject panelCorazonVacio;
     [SerializeField]
     private GameObject corazonVacio;
+    [SerializeField]
+    private GameObject panelInventario;
+    [SerializeField]
+    private GameObject prefabItem;
 
     //Array de Imágenes correspondiente a los corazones
     public Image[] corazones;
+    
+    //Lista de items en el inventario
+    public List<string> inventario = new List<string>();
 
 
     private static GameManager _instance;
@@ -68,6 +75,10 @@ public class GameManager : MonoBehaviour
                 //Creación no asignándole padre (lo crea como hijo del raiz)
                 Instantiate(corazonLleno);
                 */
+            }
+            if (PlayerPrefs.HasKey("Puntuacion"))
+            {
+                AddPuntuacion(PlayerPrefs.GetInt("Puntuacion"));
             }
         }
     }
@@ -113,5 +124,36 @@ public class GameManager : MonoBehaviour
                 HacerDanyo(vidaResidual);
             }
         }
+    }
+
+    public void GuardarCheckpoint(Vector3 position)
+    {
+        PlayerPrefs.SetFloat("x", position.x);
+        PlayerPrefs.SetFloat("y", position.y);
+        PlayerPrefs.SetFloat("z", position.z);
+        PlayerPrefs.SetInt("Puntuacion", puntuacion);
+        PlayerPrefs.Save();
+    }
+
+    public void AddItem(GameObject item)
+    {
+        //Agregar el nombre del item al inventario (es una lista de nombres)
+        inventario.Add(item.GetComponentInChildren<Item>().GetItemName());
+
+        //Creamos el item del UI
+        GameObject nuevoItem = Instantiate(prefabItem, panelInventario.transform);
+        Sprite sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+        nuevoItem.GetComponent<Image>().sprite = sprite;
+    }
+    public bool HasItem(string itemBuscado)
+    {
+        foreach(string item in inventario)
+        {
+            if (itemBuscado == item)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
