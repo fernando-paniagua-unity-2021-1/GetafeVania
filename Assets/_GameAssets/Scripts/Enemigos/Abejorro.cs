@@ -13,9 +13,12 @@ public class Abejorro : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             GetComponentInParent<ElementoMovil>().CambiarSentido();
-            collision.gameObject.GetComponent<ControlVida>().QuitarSalud(danyo);
             picorro = false;
             Invoke("Reactivar", tiempoReactivacion);
+            //Hacer danyo a través del GameManager
+            GameManager gm = GameManager.Instance;
+            gm.HacerDanyo(danyo);
+
         }
     }
     private void Reactivar()

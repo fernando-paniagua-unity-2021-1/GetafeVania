@@ -13,6 +13,8 @@ public class Mover : MonoBehaviour
 
     private bool estaEnElSuelo = false;
 
+    private int contadorSaltos=0;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -40,7 +42,7 @@ public class Mover : MonoBehaviour
             animator.SetBool("Walking", false);
         }
         //Saltar
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             Salta();
         }
@@ -51,13 +53,22 @@ public class Mover : MonoBehaviour
     }
     private void Salta()
     {
+        /*
         if (estaEnElSuelo) { 
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
         }
+        */
+        if (contadorSaltos < 2)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+            contadorSaltos++;
+        } 
+        
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         estaEnElSuelo = true;
+        contadorSaltos = 0;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
