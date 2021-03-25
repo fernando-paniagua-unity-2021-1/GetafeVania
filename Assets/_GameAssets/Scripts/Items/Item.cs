@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
+    public enum ItemValues { LlaveAmarilla, GemaAmarilla, PowerUp, Invulnerability }
+
     [SerializeField]
-    private string itemName;
+    private ItemValues itemName;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -15,7 +17,7 @@ public class Item : MonoBehaviour
             gm.AddItem(gameObject);
         }
     }
-    public string GetItemName()
+    public ItemValues GetItemName()
     {
         return this.itemName;
     }

@@ -12,7 +12,8 @@ public class GuardadorConfiguracion : MonoBehaviour
         PlayerPrefs.SetString("sonido", conmutadorSonido.isOn.ToString());
         PlayerPrefs.SetFloat("volumen", volumenSonido.value);
         PlayerPrefs.Save();
-        print("SONIDO:" + conmutadorSonido.isOn);
-        print("VOLUMEN:" + volumenSonido.value);
+        
+        GameObject.Find("BackgroundMusic").GetComponent<MusicManager>().
+            SetConfig(conmutadorSonido.isOn, volumenSonido.value);
     }
 }

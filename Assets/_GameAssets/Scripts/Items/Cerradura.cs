@@ -9,7 +9,7 @@ public class Cerradura : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             GameManager gm = GameManager.Instance;
-            if (gm.HasItem("LlaveAmarilla"))
+            if (gm.HasItem(Item.ItemValues.LlaveAmarilla))
             {
                 GameObject.Find("TextAdvertencia").GetComponent<TextoAdvertencia>().SetTexto("YOU WIN!");
             }

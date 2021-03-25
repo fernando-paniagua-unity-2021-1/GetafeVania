@@ -62,7 +62,7 @@ public class Mover : MonoBehaviour
         if (contadorSaltos < 2)
         {
             GameManager gm = GameManager.Instance;
-            if ((contadorSaltos==0) || (contadorSaltos==1 && gm.HasItem("DobleSalto")))
+            if ((contadorSaltos==0) || (contadorSaltos==1 && gm.HasItem(Item.ItemValues.GemaAmarilla)))
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
             }
@@ -73,8 +73,14 @@ public class Mover : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        estaEnElSuelo = true;
-        contadorSaltos = 0;
+        bool puedeSaltar = 
+            collision.gameObject.CompareTag("Suelo") || 
+            collision.gameObject.CompareTag("Pegajoso");
+        if (puedeSaltar)
+        {
+            estaEnElSuelo = true;
+            contadorSaltos = 0;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

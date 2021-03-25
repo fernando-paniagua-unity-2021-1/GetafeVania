@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,11 +41,19 @@ public class GameManager : MonoBehaviour
     public Image[] corazones;
     
     //Lista de items en el inventario
-    public List<string> inventario = new List<string>();
+    public List<Item.ItemValues> inventario = new List<Item.ItemValues>();
 
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 
     private void Awake()
     {
@@ -80,6 +89,18 @@ public class GameManager : MonoBehaviour
             {
                 AddPuntuacion(PlayerPrefs.GetInt("Puntuacion"));
             }
+            if (PlayerPrefs.HasKey("sonido"))
+            {
+                bool sonido = bool.Parse(PlayerPrefs.GetString("sonido"));
+                float volumen = PlayerPrefs.GetFloat("volumen");
+                if (sonido==false)
+                {
+                    AudioListener.volume = 0;
+                } else
+                {
+                    AudioListener.volume = volumen;
+                }
+            } 
         }
     }
 
@@ -145,9 +166,9 @@ public class GameManager : MonoBehaviour
         Sprite sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
         nuevoItem.GetComponent<Image>().sprite = sprite;
     }
-    public bool HasItem(string itemBuscado)
+    public bool HasItem(Item.ItemValues itemBuscado)
     {
-        foreach(string item in inventario)
+        foreach(Item.ItemValues item in inventario)
         {
             if (itemBuscado == item)
             {

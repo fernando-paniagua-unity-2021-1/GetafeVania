@@ -13,6 +13,8 @@ public class Proyectil : MonoBehaviour
     {
         transform.Rotate(0, 0, Time.deltaTime * rotationSpeed);
     }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(transform.parent.gameObject, timeToDestroy);

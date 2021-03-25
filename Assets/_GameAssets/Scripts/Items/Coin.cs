@@ -15,6 +15,11 @@ public class Coin : MonoBehaviour
             //Puntuación volante?
             (Instantiate(prefabPoints, transform.position,transform.rotation)).
                 GetComponent<FlyingScore>().SetScoreValue(puntuacion);
+            //Equivalente a la línea anterior
+            /*
+            GameObject puntosVoladores = Instantiate(prefabPoints, transform.position, transform.rotation);
+            puntosVoladores.GetComponent<FlyingScore>().SetScoreValue(puntuacion);
+            */
             //Destrucción de la moneda
             Destroy(transform.parent.gameObject);
         }
