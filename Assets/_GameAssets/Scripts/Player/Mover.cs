@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 //Fire1-->A, Fire2-->B, Fire3-->X, Fire4-->Y, Fire5-->Gatillo izquierdo
 public class Mover : MonoBehaviour
 {
+    public FixedJoystick joystick;
+
+
     public float speed;
     public float jumpForce;
 
@@ -15,15 +19,25 @@ public class Mover : MonoBehaviour
 
     private int contadorSaltos=0;
 
+    private GameManager gameManager;
+
     private void Awake()
     {
+        gameManager = GameManager.Instance;
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
         //Obtenemos el valor del eje horizontal de control
-        x = Input.GetAxis("Horizontal");
+        if (gameManager.IsAndroid() == false)
+        {
+            x = Input.GetAxis("Horizontal");
+        } else
+        {
+            x = joystick.Horizontal;
+        }
+
         //Corrigiendo la x para que los valores sean 0, 1 ó -1
         if (x > 0.001f) x = 1;
         if (x < -0.001f) x = -1;
@@ -42,7 +56,7 @@ public class Mover : MonoBehaviour
             animator.SetBool("Walking", false);
         }
         //Saltar
-        if (Input.GetButtonDown("Fire1"))
+        if (!gameManager.IsAndroid() && Input.GetButtonDown("Fire1"))
         {
             Salta();
         }
@@ -51,7 +65,7 @@ public class Mover : MonoBehaviour
     {
         rb2d.velocity = new Vector2(Time.deltaTime * speed * x, rb2d.velocity.y);
     }
-    private void Salta()
+    public void Salta()
     {
         /*
         if (estaEnElSuelo) { 

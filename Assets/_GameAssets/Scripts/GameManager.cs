@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     //Lista de items en el inventario
     public List<Item.ItemValues> inventario = new List<Item.ItemValues>();
 
+    private bool isAndroid;
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -101,6 +102,14 @@ public class GameManager : MonoBehaviour
                     AudioListener.volume = volumen;
                 }
             } 
+
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                isAndroid = true;
+            } else
+            {
+                isAndroid = false;
+            }
         }
     }
 
@@ -176,5 +185,16 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public bool IsAndroid()
+    {
+        return isAndroid;
+    }
+
+
+    public void MostrarEscenaPrincipal()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 }
