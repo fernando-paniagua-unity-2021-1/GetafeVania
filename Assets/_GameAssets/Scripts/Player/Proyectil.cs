@@ -23,7 +23,13 @@ public class Proyectil : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemigo"))
         {
-            Destroy(collision.gameObject);
+            if (collision.gameObject.transform.parent.CompareTag("Enemigo"))
+            {
+                Destroy(collision.gameObject.transform.parent.gameObject);
+            } else
+            {
+                Destroy(collision.gameObject);
+            }
         }
     }
 }
